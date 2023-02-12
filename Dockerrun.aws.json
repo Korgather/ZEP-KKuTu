@@ -1,0 +1,122 @@
+{
+	"AWSEBDockerrunVersion": "3",
+	"services": [
+		{
+			"name": "kkutu-game",
+			"image": "game",
+			"build": {
+				"dockerfile": "./Dockerfile",
+				"context": "."
+			},
+			"portMappings": [
+				{
+					"containerPort": 8496,
+					"hostPort": 8496
+				},
+				{
+					"containerPort": 8080,
+					"hostPort": 8080
+				}
+			],
+			"environment": [
+				{
+					"name": "NODE_APP",
+					"value": "/app/Server/lib/Game/cluster.js 0 1"
+				}
+			],
+			"essential": true,
+			"mountPoints": [
+				{
+					"sourceVolume": "Server-lib",
+					"containerPath": "/app/Server/lib"
+				}
+			],
+			"memory": 256
+		},
+		{
+			"name": "kkutu-web",
+			"image": "web",
+			"build": {
+				"dockerfile": "./Dockerfile",
+				"context": "."
+			},
+			"portMappings": [
+				{
+					"containerPort": 80,
+					"hostPort": 80
+				}
+			],
+			"environment": [
+				{
+					"name": "NODE_APP",
+					"value": "/app/Server/lib/Web/cluster.js 1"
+				}
+			],
+			"essential": true,
+			"mountPoints": [
+				{
+					"sourceVolume": "Server-lib",
+					"containerPath": "/app/Server/lib"
+				},
+				{
+					"sourceVolume": "kkutu-data",
+					"containerPath": "/kkutu"
+				}
+			],
+			"memory": 256,
+			"links": ["game", "db"]
+		},
+		{
+			"name": "kkutu-db",
+			"image": "db",
+			"build": {
+				"dockerfile": "./Dockerfile",
+				"context": "."
+			},
+			"portMappings": [
+				{
+					"containerPort": 5432,
+					"hostPort": 5432
+				}
+			],
+			"environment": [
+				{
+					"name": "POSTGRES_PASSWORD",
+					"value": "postgres"
+				},
+				{
+					"name": "POSTGRES_DB",
+					"value": "main"
+				}
+			],
+			"mountPoints": [
+				{
+					"sourceVolume": "db-data",
+					"containerPath": "/var/lib/postgresql/data"
+				}
+			],
+			"memory": 256,
+			"essential": true
+		}
+	],
+	"volumes": [
+		{
+			"name": "Server-lib",
+			"host": {
+				"sourcePath": "./Server/lib"
+			}
+		},
+		{
+			"name": "kkutu-data",
+			"host": {
+				"sourcePath": "./kkutu_data"
+			}
+		},
+		{
+			"name": "db-data",
+			"host": {
+				"sourcePath": "./db_data"
+			}
+		}
+	]
+}
