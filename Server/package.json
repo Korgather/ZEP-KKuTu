@@ -1,20 +1,26 @@
 {
-  "name": "kkutu-server",
-  "version": "2.5.1",
-  "description": "Rule the words! KKuTu Online Server",
-  "main": "main.js",
-  "scripts": {
-    "start": "electron ."
-  },
-  "repository": "https://github.com/JJoriping/KKuTu",
-  "keywords": [
-    "kkutu"
-  ],
-  "author": "JJoriping",
-  "license": "GPL-3.0",
-  "devDependencies": {
-    "electron": "^1.4.15",
-    "electron-packager": "^8.5.1",
-    "electron-pug": "^1.5.1"
-  }
+	"name": "kkutu-server",
+	"version": "2.5.1",
+	"description": "Rule the words! KKuTu Online Server",
+	"main": "main.js",
+	"scripts": {
+		"start": "electron ."
+	},
+	"repository": "https://github.com/JJoriping/KKuTu",
+	"keywords": [
+		"kkutu"
+	],
+	"author": "JJoriping",
+	"license": "GPL-3.0",
+	"devDependencies": {
+		"aws-sdk": "^2.1318.0",
+		"electron": "^23.1.0",
+		"electron-packager": "^17.1.1",
+		"electron-pug": "^2.0.0"
+	},
+	"dependencies": {
+		"grunt": "^1.6.1",
+		"npm-check-updates": "^16.7.5",
+		"util": "^0.12.5"
+	}
 }

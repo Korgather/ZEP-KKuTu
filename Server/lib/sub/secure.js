@@ -1,17 +1,17 @@
 /**
  * Rule the words! KKuTu Online
  * Copyright (C) 2017 JJoriping(op@jjo.kr)
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -21,19 +21,196 @@
  * 보안처리 관련 코드 생성
  */
 
-const Const = require('../const')
-const File = require('fs')
+const Const = require("../const");
+const File = require("fs");
 
 module.exports = () => {
-    const options = {};
-    if(Const.SSL_OPTIONS.isPFX == true) {
-        options.pfx = File.readFileSync(Const.SSL_OPTIONS.PFX);
-    } else {
-        options.key = File.readFileSync(Const.SSL_OPTIONS.PRIVKEY);
-        options.cert = File.readFileSync(Const.SSL_OPTIONS.CERT);
-        if(Const.SSL_OPTIONS.isCA == true) {
-            options.ca = File.readFileSync(Const.SSL_OPTIONS.CA);
-        }
-    }
-    return options;
-}
+	// let acm = new AWS.ACM({ region: "ap-northeast-2" });
+	// acm.exportCertificate
+	const options = {};
+	let key = `-----BEGIN PRIVATE KEY-----
+MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDduTIdzr7OCJcI
+cKliCw/GWu2zGszMXN7qepO3apobbNVUU3FGfT/w6FnORmvdlh2+ILD5U/rvmS1D
+PrYk3yYyTW+8vewhWrXJWCnaJsMUvJ0pzh9nIf0uVn7SNcRUv/DtZ7kkRaRGSzMU
+Yu8Zs1vKtV5zqlGshAcXCWuzjwqJzun6um4O7YXEAm3hH8VgTGRwjHMprB2QOuDV
+tYBmCuwFHitJDGohK7NkrIXxKLz5+U7Il4a4hscgVldjLE5k8yNU0Y+u9t2SP9u3
+Ahrrd9DFYA5kRDSx6g0hOtfPxIwkD10J2OCL4yQHowGVGvPjuRHrIzPFwyySD5Vk
+fthTwpZXAgMBAAECggEBAKipYQs1owVdmW5NLTwsh/JuZtTQtStcFiIt3kIu8E2e
+a2T7GHbzfflG9lGoVhM4RyXC/nybOo6aacj2Yl4H9alcKHxdyMrSkug3jZap18nl
+dHRBnLe6Ljrahxxm1BNX8vDU7ww9gaoLOC7w10somdHIR7IaxIhD4pTOkMQFMpIC
+jmn1wamhVvFW2zZ7y4wcQLDxPbZfBVyL+2SeCRHlylYQ0tKLxrTWLuWV4XzxzV5n
+837/B+LTPQ628hqpDzsvxQZhMxwN0+aOsoF6Omb5mPg03nq2AtAOlCtbtBIe0O82
+UcPtmk28Dhvuje54loHHb+0+qViPW3EuKmU5K8UeFmkCgYEA9fKjr04dw69vi3Md
+pHs8g7C9m/+on+MPBdfJ1+GGW5qV6d3Nn+LclLXLm4tqJb59aUWKb+88f4ArFN0k
+a284enD4fZoXMfb6yoZZ7LMsRzBLtWG+6+VBCjOgU9T9SSu2DYqZNlx1fm4KFtu+
+/1mhwXDirHc8Vf+BcEXgBNGjkBUCgYEA5skYgibjEsukGYHMhzeaxzdvf7h1HIhs
+PAWHT0+jJxdFXciGwIEM7LhFlWw5Nxt+7T7imMBO6DiO4GTU4VSupcxFhCgLGRxJ
+Oeu26ewMlNg4wdRhGDs6I22xsCMgGof0qFkvek8cKfj7xfooBNtcAhD1gcJ73p3N
+mgCwrlQlu7sCgYAD8MFCm8PKUNM+rrd43SiZC4neJ/hxp1ekRlLLjKd0bEOenZkf
+yKi0ET2T3mXy+NxVhXG0XWbgvBL0oJ5mwj9rZsf0azWX7VcTS5fBPRWmhlWQMGK4
+sNGb8jvNXAo60+J00RWnU0/mmKi8uQSUXsFCsiZPkRF8Zz2RqOzv5tPyCQKBgQDJ
+0zlEsP9J857504JrCdyotbkjh8ua/U8yGl+fo3R5/ibigjgd533HEst/hhpvL/OL
+RMBjd2JKQRPp9yQYPrdRNVfh4Cb8ebksFxBqd8z06jaQg8u5pioMy6Rl9gHgUd9K
+zlvv6Xkm16BPHZqbzL4k7HHXXZ54K6afNFVOzzYEewKBgD/LdKvWH4V4y3nAaaBC
+ZWPU1/BAKC7pNcnDWKMDW588jduuqbzmkRZmNu+JXUcqLWhZfecESCpt5TpqQd/s
+8P3AOBqAXQFWaqiL7dFXP11WzvtYZcudxhAvQV4wSiB00Hkith+1Ja60QQXRg+U1
+S/lB+0liyIe1CG558SiqbiAq
+-----END PRIVATE KEY-----`;
+
+	let cert = `-----BEGIN CERTIFICATE-----
+MIIFPDCCBCSgAwIBAgISA4VCyxz33B2SaNaltvAcOAnYMA0GCSqGSIb3DQEBCwUA
+MDIxCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MQswCQYDVQQD
+EwJSMzAeFw0yMzAyMTkwNTIzMThaFw0yMzA1MjAwNTIzMTdaMBsxGTAXBgNVBAMT
+EHplcC1ra3V0dS5vbmxpbmUwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIB
+AQDduTIdzr7OCJcIcKliCw/GWu2zGszMXN7qepO3apobbNVUU3FGfT/w6FnORmvd
+lh2+ILD5U/rvmS1DPrYk3yYyTW+8vewhWrXJWCnaJsMUvJ0pzh9nIf0uVn7SNcRU
+v/DtZ7kkRaRGSzMUYu8Zs1vKtV5zqlGshAcXCWuzjwqJzun6um4O7YXEAm3hH8Vg
+TGRwjHMprB2QOuDVtYBmCuwFHitJDGohK7NkrIXxKLz5+U7Il4a4hscgVldjLE5k
+8yNU0Y+u9t2SP9u3Ahrrd9DFYA5kRDSx6g0hOtfPxIwkD10J2OCL4yQHowGVGvPj
+uRHrIzPFwyySD5VkfthTwpZXAgMBAAGjggJhMIICXTAOBgNVHQ8BAf8EBAMCBaAw
+HQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAwGA1UdEwEB/wQCMAAwHQYD
+VR0OBBYEFHLjN8g2mk+c9NEVJIebTaZokbbMMB8GA1UdIwQYMBaAFBQusxe3WFbL
+rlAJQOYfr52LFMLGMFUGCCsGAQUFBwEBBEkwRzAhBggrBgEFBQcwAYYVaHR0cDov
+L3IzLm8ubGVuY3Iub3JnMCIGCCsGAQUFBzAChhZodHRwOi8vcjMuaS5sZW5jci5v
+cmcvMDEGA1UdEQQqMCiCFHd3dy56ZXAta2t1dHUub25saW5lghB6ZXAta2t1dHUu
+b25saW5lMEwGA1UdIARFMEMwCAYGZ4EMAQIBMDcGCysGAQQBgt8TAQEBMCgwJgYI
+KwYBBQUHAgEWGmh0dHA6Ly9jcHMubGV0c2VuY3J5cHQub3JnMIIBBAYKKwYBBAHW
+eQIEAgSB9QSB8gDwAHYAejKMVNi3LbYg6jjgUh7phBZwMhOFTTvSK8E6V6NS61IA
+AAGGaFdT/wAABAMARzBFAiEAzB0Mv/U6TNBksyB7fHsFsuUiGiGI3zsLgKoqChMU
+T9oCIAfcKkxRE9qyuUjDEtvYqh0RuKhVVlCuiZEhTEpIi400AHYArfe++nz/EMiL
+nT2cHj4YarRnKV3PsQwkyoWGNOvcgooAAAGGaFdULQAABAMARzBFAiB72SD4xtfa
+46AkCVOla+CSxJ75sdtqpm9rk80sEbk5fAIhANXFrvl70qnutA4Pkc1YI+pv2Oaf
+Cv7FdQdh0qyqRkL/MA0GCSqGSIb3DQEBCwUAA4IBAQBnbKovLJRxCiVSu/mhrVH9
+GP+dFCLjuYUCNEVlPsfsP05dmsNChlUcriSGOLQwG8taiaXYTlC1pUiJO4uL358y
+1Q3QgLLV+FKAteONJdUiil1xSvghsHidxSCmUkl+L2YBlXL9OCHPBARV5iE/rbW2
+EizzNii5Kkk1+hqloe+UlD8zN7QFasrCv9AKZUd/V6VLLlZCJ26Xveb6pBCdcJLg
+kAqUI0suUF0ekx4aaJzrlwQr63gnq+be41uQS787CG8rikE9OYLMn7gaQGDZiBZI
+WeYsujQO+oRJpwMBateJdAy+VGoyBcn62ksHLzmf/epHY9QiwqQSyJzWIinE1mdL
+-----END CERTIFICATE-----`;
+
+	let ca = `-----BEGIN CERTIFICATE-----
+MIIFPDCCBCSgAwIBAgISA4VCyxz33B2SaNaltvAcOAnYMA0GCSqGSIb3DQEBCwUA
+MDIxCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MQswCQYDVQQD
+EwJSMzAeFw0yMzAyMTkwNTIzMThaFw0yMzA1MjAwNTIzMTdaMBsxGTAXBgNVBAMT
+EHplcC1ra3V0dS5vbmxpbmUwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIB
+AQDduTIdzr7OCJcIcKliCw/GWu2zGszMXN7qepO3apobbNVUU3FGfT/w6FnORmvd
+lh2+ILD5U/rvmS1DPrYk3yYyTW+8vewhWrXJWCnaJsMUvJ0pzh9nIf0uVn7SNcRU
+v/DtZ7kkRaRGSzMUYu8Zs1vKtV5zqlGshAcXCWuzjwqJzun6um4O7YXEAm3hH8Vg
+TGRwjHMprB2QOuDVtYBmCuwFHitJDGohK7NkrIXxKLz5+U7Il4a4hscgVldjLE5k
+8yNU0Y+u9t2SP9u3Ahrrd9DFYA5kRDSx6g0hOtfPxIwkD10J2OCL4yQHowGVGvPj
+uRHrIzPFwyySD5VkfthTwpZXAgMBAAGjggJhMIICXTAOBgNVHQ8BAf8EBAMCBaAw
+HQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAwGA1UdEwEB/wQCMAAwHQYD
+VR0OBBYEFHLjN8g2mk+c9NEVJIebTaZokbbMMB8GA1UdIwQYMBaAFBQusxe3WFbL
+rlAJQOYfr52LFMLGMFUGCCsGAQUFBwEBBEkwRzAhBggrBgEFBQcwAYYVaHR0cDov
+L3IzLm8ubGVuY3Iub3JnMCIGCCsGAQUFBzAChhZodHRwOi8vcjMuaS5sZW5jci5v
+cmcvMDEGA1UdEQQqMCiCFHd3dy56ZXAta2t1dHUub25saW5lghB6ZXAta2t1dHUu
+b25saW5lMEwGA1UdIARFMEMwCAYGZ4EMAQIBMDcGCysGAQQBgt8TAQEBMCgwJgYI
+KwYBBQUHAgEWGmh0dHA6Ly9jcHMubGV0c2VuY3J5cHQub3JnMIIBBAYKKwYBBAHW
+eQIEAgSB9QSB8gDwAHYAejKMVNi3LbYg6jjgUh7phBZwMhOFTTvSK8E6V6NS61IA
+AAGGaFdT/wAABAMARzBFAiEAzB0Mv/U6TNBksyB7fHsFsuUiGiGI3zsLgKoqChMU
+T9oCIAfcKkxRE9qyuUjDEtvYqh0RuKhVVlCuiZEhTEpIi400AHYArfe++nz/EMiL
+nT2cHj4YarRnKV3PsQwkyoWGNOvcgooAAAGGaFdULQAABAMARzBFAiB72SD4xtfa
+46AkCVOla+CSxJ75sdtqpm9rk80sEbk5fAIhANXFrvl70qnutA4Pkc1YI+pv2Oaf
+Cv7FdQdh0qyqRkL/MA0GCSqGSIb3DQEBCwUAA4IBAQBnbKovLJRxCiVSu/mhrVH9
+GP+dFCLjuYUCNEVlPsfsP05dmsNChlUcriSGOLQwG8taiaXYTlC1pUiJO4uL358y
+1Q3QgLLV+FKAteONJdUiil1xSvghsHidxSCmUkl+L2YBlXL9OCHPBARV5iE/rbW2
+EizzNii5Kkk1+hqloe+UlD8zN7QFasrCv9AKZUd/V6VLLlZCJ26Xveb6pBCdcJLg
+kAqUI0suUF0ekx4aaJzrlwQr63gnq+be41uQS787CG8rikE9OYLMn7gaQGDZiBZI
+WeYsujQO+oRJpwMBateJdAy+VGoyBcn62ksHLzmf/epHY9QiwqQSyJzWIinE1mdL
+-----END CERTIFICATE-----
+-----BEGIN CERTIFICATE-----
+MIIFFjCCAv6gAwIBAgIRAJErCErPDBinU/bWLiWnX1owDQYJKoZIhvcNAQELBQAw
+TzELMAkGA1UEBhMCVVMxKTAnBgNVBAoTIEludGVybmV0IFNlY3VyaXR5IFJlc2Vh
+cmNoIEdyb3VwMRUwEwYDVQQDEwxJU1JHIFJvb3QgWDEwHhcNMjAwOTA0MDAwMDAw
+WhcNMjUwOTE1MTYwMDAwWjAyMQswCQYDVQQGEwJVUzEWMBQGA1UEChMNTGV0J3Mg
+RW5jcnlwdDELMAkGA1UEAxMCUjMwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEK
+AoIBAQC7AhUozPaglNMPEuyNVZLD+ILxmaZ6QoinXSaqtSu5xUyxr45r+XXIo9cP
+R5QUVTVXjJ6oojkZ9YI8QqlObvU7wy7bjcCwXPNZOOftz2nwWgsbvsCUJCWH+jdx
+sxPnHKzhm+/b5DtFUkWWqcFTzjTIUu61ru2P3mBw4qVUq7ZtDpelQDRrK9O8Zutm
+NHz6a4uPVymZ+DAXXbpyb/uBxa3Shlg9F8fnCbvxK/eG3MHacV3URuPMrSXBiLxg
+Z3Vms/EY96Jc5lP/Ooi2R6X/ExjqmAl3P51T+c8B5fWmcBcUr2Ok/5mzk53cU6cG
+/kiFHaFpriV1uxPMUgP17VGhi9sVAgMBAAGjggEIMIIBBDAOBgNVHQ8BAf8EBAMC
+AYYwHQYDVR0lBBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMBMBIGA1UdEwEB/wQIMAYB
+Af8CAQAwHQYDVR0OBBYEFBQusxe3WFbLrlAJQOYfr52LFMLGMB8GA1UdIwQYMBaA
+FHm0WeZ7tuXkAXOACIjIGlj26ZtuMDIGCCsGAQUFBwEBBCYwJDAiBggrBgEFBQcw
+AoYWaHR0cDovL3gxLmkubGVuY3Iub3JnLzAnBgNVHR8EIDAeMBygGqAYhhZodHRw
+Oi8veDEuYy5sZW5jci5vcmcvMCIGA1UdIAQbMBkwCAYGZ4EMAQIBMA0GCysGAQQB
+gt8TAQEBMA0GCSqGSIb3DQEBCwUAA4ICAQCFyk5HPqP3hUSFvNVneLKYY611TR6W
+PTNlclQtgaDqw+34IL9fzLdwALduO/ZelN7kIJ+m74uyA+eitRY8kc607TkC53wl
+ikfmZW4/RvTZ8M6UK+5UzhK8jCdLuMGYL6KvzXGRSgi3yLgjewQtCPkIVz6D2QQz
+CkcheAmCJ8MqyJu5zlzyZMjAvnnAT45tRAxekrsu94sQ4egdRCnbWSDtY7kh+BIm
+lJNXoB1lBMEKIq4QDUOXoRgffuDghje1WrG9ML+Hbisq/yFOGwXD9RiX8F6sw6W4
+avAuvDszue5L3sz85K+EC4Y/wFVDNvZo4TYXao6Z0f+lQKc0t8DQYzk1OXVu8rp2
+yJMC6alLbBfODALZvYH7n7do1AZls4I9d1P4jnkDrQoxB3UqQ9hVl3LEKQ73xF1O
+yK5GhDDX8oVfGKF5u+decIsH4YaTw7mP3GFxJSqv3+0lUFJoi5Lc5da149p90Ids
+hCExroL1+7mryIkXPeFM5TgO9r0rvZaBFOvV2z0gp35Z0+L4WPlbuEjN/lxPFin+
+HlUjr8gRsI3qfJOQFy/9rKIJR0Y/8Omwt/8oTWgy1mdeHmmjk7j1nYsvC9JSQ6Zv
+MldlTTKB3zhThV1+XWYp6rjd5JW1zbVWEkLNxE7GJThEUG3szgBVGP7pSWTUTsqX
+nLRbwHOoq7hHwg==
+-----END CERTIFICATE-----
+-----BEGIN CERTIFICATE-----
+MIIFYDCCBEigAwIBAgIQQAF3ITfU6UK47naqPGQKtzANBgkqhkiG9w0BAQsFADA/
+MSQwIgYDVQQKExtEaWdpdGFsIFNpZ25hdHVyZSBUcnVzdCBDby4xFzAVBgNVBAMT
+DkRTVCBSb290IENBIFgzMB4XDTIxMDEyMDE5MTQwM1oXDTI0MDkzMDE4MTQwM1ow
+TzELMAkGA1UEBhMCVVMxKTAnBgNVBAoTIEludGVybmV0IFNlY3VyaXR5IFJlc2Vh
+cmNoIEdyb3VwMRUwEwYDVQQDEwxJU1JHIFJvb3QgWDEwggIiMA0GCSqGSIb3DQEB
+AQUAA4ICDwAwggIKAoICAQCt6CRz9BQ385ueK1coHIe+3LffOJCMbjzmV6B493XC
+ov71am72AE8o295ohmxEk7axY/0UEmu/H9LqMZshftEzPLpI9d1537O4/xLxIZpL
+wYqGcWlKZmZsj348cL+tKSIG8+TA5oCu4kuPt5l+lAOf00eXfJlII1PoOK5PCm+D
+LtFJV4yAdLbaL9A4jXsDcCEbdfIwPPqPrt3aY6vrFk/CjhFLfs8L6P+1dy70sntK
+4EwSJQxwjQMpoOFTJOwT2e4ZvxCzSow/iaNhUd6shweU9GNx7C7ib1uYgeGJXDR5
+bHbvO5BieebbpJovJsXQEOEO3tkQjhb7t/eo98flAgeYjzYIlefiN5YNNnWe+w5y
+sR2bvAP5SQXYgd0FtCrWQemsAXaVCg/Y39W9Eh81LygXbNKYwagJZHduRze6zqxZ
+Xmidf3LWicUGQSk+WT7dJvUkyRGnWqNMQB9GoZm1pzpRboY7nn1ypxIFeFntPlF4
+FQsDj43QLwWyPntKHEtzBRL8xurgUBN8Q5N0s8p0544fAQjQMNRbcTa0B7rBMDBc
+SLeCO5imfWCKoqMpgsy6vYMEG6KDA0Gh1gXxG8K28Kh8hjtGqEgqiNx2mna/H2ql
+PRmP6zjzZN7IKw0KKP/32+IVQtQi0Cdd4Xn+GOdwiK1O5tmLOsbdJ1Fu/7xk9TND
+TwIDAQABo4IBRjCCAUIwDwYDVR0TAQH/BAUwAwEB/zAOBgNVHQ8BAf8EBAMCAQYw
+SwYIKwYBBQUHAQEEPzA9MDsGCCsGAQUFBzAChi9odHRwOi8vYXBwcy5pZGVudHJ1
+c3QuY29tL3Jvb3RzL2RzdHJvb3RjYXgzLnA3YzAfBgNVHSMEGDAWgBTEp7Gkeyxx
++tvhS5B1/8QVYIWJEDBUBgNVHSAETTBLMAgGBmeBDAECATA/BgsrBgEEAYLfEwEB
+ATAwMC4GCCsGAQUFBwIBFiJodHRwOi8vY3BzLnJvb3QteDEubGV0c2VuY3J5cHQu
+b3JnMDwGA1UdHwQ1MDMwMaAvoC2GK2h0dHA6Ly9jcmwuaWRlbnRydXN0LmNvbS9E
+U1RST09UQ0FYM0NSTC5jcmwwHQYDVR0OBBYEFHm0WeZ7tuXkAXOACIjIGlj26Ztu
+MA0GCSqGSIb3DQEBCwUAA4IBAQAKcwBslm7/DlLQrt2M51oGrS+o44+/yQoDFVDC
+5WxCu2+b9LRPwkSICHXM6webFGJueN7sJ7o5XPWioW5WlHAQU7G75K/QosMrAdSW
+9MUgNTP52GE24HGNtLi1qoJFlcDyqSMo59ahy2cI2qBDLKobkx/J3vWraV0T9VuG
+WCLKTVXkcGdtwlfFRjlBz4pYg1htmf5X6DYO8A4jqv2Il9DjXA6USbW1FzXSLr9O
+he8Y4IWS6wY7bCkjCWDcRQJMEhg76fsO3txE+FiYruq9RUWhiF1myv4Q6W+CyBFC
+Dfvp7OOGAN6dEOM4+qR9sdjoSYKEBpsr6GtPAQw4dy753ec5
+-----END CERTIFICATE-----`;
+
+	if (Const.SSL_OPTIONS.isPFX == true) {
+		// options.pfx = File.readFileSync(Const.SSL_OPTIONS.PFX);
+	} else {
+		// options.key = key;
+
+		let dir = "../../etc/letsencrypt/live/zep-kkutu.online/";
+		// File.readdir(dir, function (err, files) {
+		// 	if (err) {
+		// 		return console.log("Unable to scan directory: " + err);
+		// 	}
+
+		// 	files.forEach(function (file) {
+		// 		if (file == "privkey.pem") {
+		// 			console.log("ok1");
+		// 			options.key = File.readFileSync(dir + file);
+		// 		} else if (file == "cert.pem") {
+		// 			console.log("ok2");
+		// 			options.cert = File.readFileSync(dir + file);
+		// 			console.log(options.cert);
+		// 		}
+
+		// 		console.log(file);
+		// 	});
+		// 	console.log("?????");
+		// });
+
+		options.key = key;
+		options.cert = cert;
+		options.ca = ca;
+	}
+	// console.log("options" + options.cert);
+	// console.log("options" + options.key);
+	return options;
+};

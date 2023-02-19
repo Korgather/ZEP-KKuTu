@@ -42,8 +42,8 @@
 			},
 			"portMappings": [
 				{
-					"containerPort": 80,
-					"hostPort": 80
+					"containerPort": 3000,
+					"hostPort": 3000
 				}
 			],
 			"environment": [
@@ -61,6 +61,10 @@
 				{
 					"sourceVolume": "kkutu-data",
 					"containerPath": "/kkutu"
+				},
+				{
+					"sourceVolume": "letsencrypt",
+					"containerPath": "/etc/letsencrypt/live/zep-kkutu.online"
 				}
 			],
 			"memory": 256,
@@ -116,6 +120,12 @@
 			"name": "db-data",
 			"host": {
 				"sourcePath": "./db_data"
+			}
+		},
+		{
+			"name": "letsencrypt",
+			"host": {
+				"sourcePath": "/etc/letsencrypt/live/zep-kkutu.online"
 			}
 		}
 	]

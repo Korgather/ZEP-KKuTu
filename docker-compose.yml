@@ -17,13 +17,14 @@ services:
     volumes:
       - ./Server/lib:/app/Server/lib/
       - kkutu_data:/kkutu
+      - /etc/letsencrypt/live/zep-kkutu.online:/etc/letsencrypt/live/zep-kkutu.online
     command: ["node", "/app/Server/lib/Web/cluster.js", "1"]
     restart: always
     depends_on:
       - db
       - game
     ports:
-      - 80:80
+      - 3000:3000
   db:
     build:
       context: .
