@@ -169,9 +169,9 @@ var L;
 	function requestLogin(e) {
 		var tl = [(size[0] - 200) * 0.5, (size[1] - 300) * 0.5];
 		console.log("login?");
-		Window.parent.postMessage(
+		window.parent.postMessage(
 			{
-				type: "loginReques",
+				type: "kkutu-login",
 				message: "로그인을 구현하자",
 				zepMessage: true,
 			},

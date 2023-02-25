@@ -382,6 +382,7 @@ exports.init = function (_SID, CHAN) {
 				socket.send(`{ "type": "error", "code": "full" }`);
 				return;
 			}
+			console.log(`key = ${key}`);
 			MainDB.session
 				.findOne(["_id", key])
 				.limit(["profile", true])
