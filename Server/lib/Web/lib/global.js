@@ -168,17 +168,17 @@ var L;
 	});
 	function requestLogin(e) {
 		var tl = [(size[0] - 200) * 0.5, (size[1] - 300) * 0.5];
-		console.log("login?");
 		window.parent.postMessage(
 			{
 				type: "kkutu-login",
-				message: "로그인을 구현하자",
 				zepMessage: true,
 			},
 			"*"
 		);
-		// $.cookie('preprev', location.href);
-		// location.href = "/login";
+		if (window.top == window.self) {
+			location.href = 'https://zep.us/play/yBZAkk?customData={"type":"kkutu"}';
+		}
+		// $.cookie("preprev", location.href);
 	}
 	function requestLogout(e) {
 		/*if(location.host == "kkutu.kr"){
