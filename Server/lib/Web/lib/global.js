@@ -27,6 +27,20 @@ var L;
 	var size;
 	var _setTimeout = setTimeout;
 
+	// 전역 변수로 URL 정보를 설정하는 함수
+	function setUrl(url) {
+		window.myGlobalUrl = url;
+	}
+
+	// 부모 창에서 iframe으로부터 메시지 수신
+	window.addEventListener("message", function (event) {
+		// 전달된 데이터가 URL인 경우
+		if (event.data.type === "url") {
+			// 전역 변수로 URL 정보를 설정
+			setUrl(event.data.url);
+		}
+	});
+
 	function setCookie(cName, cValue, cDay) {
 		var expire = new Date();
 
