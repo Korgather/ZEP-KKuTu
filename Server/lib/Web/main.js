@@ -82,23 +82,23 @@ Server.use(
 	})
 );
 
-// Server.use((req, res, next) => {
-// 	// res.header("Access-Control-Allow-Origin", "*");
-// 	// res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-// 	// res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-// 	// res.setHeader("P3P", 'CP="IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT"');
-// 	// res.setHeader("X-Content-Type-Options", "nosniff");
+Server.use((req, res, next) => {
+	// res.header("Access-Control-Allow-Origin", "*");
+	// res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	// res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+	// res.setHeader("P3P", 'CP="IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT"');
+	// res.setHeader("X-Content-Type-Options", "nosniff");
 
-// 	// res.setHeader("X-Frame-Options", "ALLOW-FROM https://zep-kkutu.online https://zep.us");
-// 	// res.setHeader("Content-Security-Policy", "frame-ancestors https://zep-kkutu.online https://zep.us");
+	res.setHeader("X-Frame-Options", "ALLOW-FROM https://zep-kkutu.online https://zep.us");
+	res.setHeader("Content-Security-Policy", "frame-ancestors https://zep-kkutu.online https://zep.us");
 
-// 	// SameSite=None 및 Secure 속성 추가
-// 	// if (req.secure) {
-// 	// 	res.header("Set-Cookie", ["SameSite=None", "Secure"]);
-// 	// }
+	//SameSite=None 및 Secure 속성 추가
+	// if (req.secure) {
+	// 	res.header("Set-Cookie", ["SameSite=None", "Secure"]);
+	// }
 
-// 	next();
-// });
+	next();
+});
 //볕뉘 수정
 Server.use(passport.initialize());
 Server.use(passport.session());

@@ -160,6 +160,12 @@ exports.run = (Server, page) => {
 	Server.get("/", function (req, res) {
 		var server = req.query.server;
 		JLog.log(`리다이렉트 후 세션 아이디 ${req.session.id}`);
+		if (req.cookies && req.cookies["connect.sid"]) {
+			JLog.log(req.cookies["connect.sid"]);
+		} else {
+			JLog.log("connect.sid 읽을 수 없음");
+		}
+
 		MainDB.session.findOne(["_id", req.session.id]).on(function ($ses) {
 			if (global.isPublic) {
 				onFinish($ses);
