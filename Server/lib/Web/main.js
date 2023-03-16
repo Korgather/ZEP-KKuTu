@@ -71,11 +71,33 @@ Server.use(
 		 client: Redis.createClient(),
 		 ttl: 3600 * 12
 	 }),*/
-		secret: "kkutu-zep",
+		secret: "kkutu",
 		resave: false,
 		saveUninitialized: true,
+		cookie: {
+			maxAge: 1000 * 60 * 60 * 24,
+			sameSite: "none",
+			secure: true,
+		},
 	})
 );
+
+Server.use((req, res, next) => {
+	// res.header("Access-Control-Allow-Origin", "*");
+	// res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	// res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+	res.setHeader("P3P", 'CP="IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT"');
+	// res.setHeader("X-Content-Type-Options", "nosniff");
+	res.setHeader("X-Frame-Options", "ALLOW-FROM https://zep-kkutu.online https://zep.us");
+	res.setHeader("Content-Security-Policy", "frame-ancestors https://zep-kkutu.online https://zep.us");
+
+	// SameSite=None 및 Secure 속성 추가
+	// if (req.secure) {
+	// 	res.header("Set-Cookie", ["SameSite=None", "Secure"]);
+	// }
+
+	next();
+});
 //볕뉘 수정
 Server.use(passport.initialize());
 Server.use(passport.session());
@@ -205,84 +227,6 @@ function GameClient(id, url) {
 }
 ROUTES.forEach(function (v) {
 	require(`./routes/${v}`).run(Server, WebInit.page);
-});
-Server.get("/", function (req, res) {
-	var server = req.query.server;
-	var zepID = req.query.id;
-
-	if (zepID) {
-		const $p = {};
-		$p.authType = "zep";
-		$p.id = zepID;
-		$p.name = req.query.name;
-		$p.title = req.query.name;
-		$p.image = req.query.image;
-		$p.sid = req.session.id;
-		let now = Date.now();
-		$p.sid = req.session.id;
-		req.session.authType = $p.authType;
-		req.session.profile = $p;
-		MainDB.session
-			.upsert(["_id", zepID])
-			.set({
-				profile: $p,
-				createdAt: now,
-			})
-			.on();
-		MainDB.users.findOne(["_id", $p.id]).on(($body) => {
-			req.session.profile = $p;
-			MainDB.users.update(["_id", $p.id]).set(["lastLogin", now]).on();
-		});
-	}
-
-	//볕뉘 수정 구문삭제(220~229, 240)
-	DB.session.findOne(["_id", zepID || req.session.id]).on(function ($ses) {
-		// var sid = (($ses || {}).profile || {}).sid || "NULL";
-		if (global.isPublic) {
-			onFinish($ses);
-			// DB.jjo_session.findOne([ '_id', sid ]).limit([ 'profile', true ]).on(onFinish);
-		} else {
-			if ($ses) $ses.profile.sid = $ses._id;
-			onFinish($ses);
-		}
-	});
-	function onFinish($doc) {
-		var id = zepID || req.session.id;
-
-		if (!req.session.profile) {
-			if ($doc) {
-				req.session.profile = $doc.profile;
-				id = zepID || $doc.profile.sid;
-			} else {
-				delete req.session.profile;
-			}
-		}
-
-		page(req, res, Const.MAIN_PORTS[server] ? "kkutu" : "portal", {
-			_page: "kkutu",
-			_id: id,
-			PORT: Const.MAIN_PORTS[server],
-			HOST: req.hostname,
-			PROTOCOL: Const.IS_SECURED ? "wss" : "ws",
-			TEST: req.query.test,
-			MOREMI_PART: Const.MOREMI_PART,
-			AVAIL_EQUIP: Const.AVAIL_EQUIP,
-			CATEGORIES: Const.CATEGORIES,
-			GROUPS: Const.GROUPS,
-			MODE: Const.GAME_TYPE,
-			RULE: Const.RULE,
-			OPTIONS: Const.OPTIONS,
-			KO_INJEONG: Const.KO_INJEONG,
-			EN_INJEONG: Const.EN_INJEONG,
-			KO_THEME: Const.KO_THEME,
-			EN_THEME: Const.EN_THEME,
-			IJP_EXCEPT: Const.IJP_EXCEPT,
-			ogImage: "http://kkutu.kr/img/kkutu/logo.png",
-			ogURL: "http://kkutu.kr/",
-			ogTitle: "ZEP 끄투서버",
-			ogDescription: "ZEP에서 끝말잇기 한판?",
-		});
-	}
 });
 
 Server.use("/api/zep/users", cors({ origin: "https://zep.us" }));

@@ -24,6 +24,8 @@ const glob = require("glob-promise");
 const GLOBAL = require("../../sub/global.json");
 const config = require("../../sub/auth.json");
 const path = require("path");
+var Const = require("../../const");
+const CustomStrategy = require("passport-custom").Strategy;
 
 function process(req, accessToken, MainDB, $p, done) {
 	$p.token = accessToken;
@@ -51,10 +53,13 @@ function process(req, accessToken, MainDB, $p, done) {
 exports.run = (Server, page) => {
 	//passport configure
 	passport.serializeUser((user, done) => {
+		JLog.log("serializeUser");
+		JLog.log(user.id);
 		done(null, user);
 	});
 
 	passport.deserializeUser((obj, done) => {
+		JLog.log("deserializeUser");
 		done(null, obj);
 	});
 
@@ -85,6 +90,149 @@ exports.run = (Server, page) => {
 			JLog.error(error.message);
 		}
 	}
+
+	// // Passport 설정
+	// passport.use(
+	// 	"no-auth",
+	// 	new CustomStrategy((req, done) => {
+	// 		var zepID = req.query.id;
+
+	// 		if (zepID) {
+	// 			const $p = {};
+	// 			$p.authType = "zep";
+	// 			$p.id = zepID;
+	// 			$p.name = req.query.name;
+	// 			$p.title = req.query.name;
+	// 			$p.image = req.query.image;
+	// 			$p.sid = req.session.id;
+	// 			let now = Date.now();
+	// 			$p.sid = req.session.id;
+
+	// 			req.session.profile = $p;
+	// 			MainDB.session
+	// 				.upsert(["_id", req.session.id])
+	// 				.set({
+	// 					profile: $p,
+	// 					createdAt: now,
+	// 				})
+	// 				.on();
+	// 			MainDB.users.findOne(["_id", $p.id]).on(($body) => {
+	// 				req.session.profile = $p;
+	// 				MainDB.users.update(["_id", $p.id]).set(["lastLogin", now]).on();
+	// 			});
+
+	// 			JLog.log(req.session.id);
+
+	// 			// req.session.passport.user = $p;
+	// 			// req.session.save((err) => {});
+	// 			// const user = $p;
+	// 			// 인증 완료 처리
+	// 			done(null, $p);
+	// 		}
+	// 	})
+	// );
+
+	function noAuthMiddleware(req, res, next) {
+		var zepID = req.query.id;
+
+		if (zepID && (!req.session.profile || req.session.profile.id !== zepID)) {
+			const $p = {};
+			$p.authType = "zep";
+			$p.id = zepID;
+			$p.name = req.query.name;
+			$p.title = req.query.name;
+			$p.image = req.query.image;
+			$p.sid = req.session.id;
+			let now = Date.now();
+			$p.sid = req.session.id;
+
+			req.session.profile = $p;
+			MainDB.session
+				.upsert(["_id", req.session.id])
+				.set({
+					profile: $p,
+					createdAt: now,
+				})
+				.on();
+			MainDB.users.findOne(["_id", $p.id]).on(($body) => {
+				req.session.profile = $p;
+				MainDB.users.update(["_id", $p.id]).set(["lastLogin", now]).on();
+			});
+
+			JLog.log(req.session.id);
+
+			// 인증 완료 처리
+			req.login($p, (err) => {
+				if (err) {
+					JLog.log(`login error: ${err}`);
+					return next();
+				}
+				JLog.log(`login success`);
+
+				req.session.save((err) => {
+					if (err) {
+						JLog.log(`session save error: ${err}`);
+						return next();
+					}
+					return next();
+				});
+			});
+		} else {
+			next();
+		}
+	}
+
+	Server.get("/", noAuthMiddleware, function (req, res) {
+		var server = req.query.server;
+		JLog.log(req.session.id);
+		MainDB.session.findOne(["_id", req.session.id]).on(function ($ses) {
+			if (global.isPublic) {
+				onFinish($ses);
+			} else {
+				if ($ses) $ses.profile.sid = $ses._id;
+				onFinish($ses);
+			}
+		});
+		function onFinish($doc) {
+			// zepID ||
+			// zepID ||
+			var id = req.session.id;
+
+			if (!req.session.profile) {
+				if ($doc) {
+					req.session.profile = $doc.profile;
+					id = $doc.profile.sid;
+				} else {
+					delete req.session.profile;
+				}
+			}
+
+			page(req, res, Const.MAIN_PORTS[server] ? "kkutu" : "portal", {
+				_page: "kkutu",
+				_id: id,
+				PORT: Const.MAIN_PORTS[server],
+				HOST: req.hostname,
+				PROTOCOL: Const.IS_SECURED ? "wss" : "ws",
+				TEST: req.query.test,
+				MOREMI_PART: Const.MOREMI_PART,
+				AVAIL_EQUIP: Const.AVAIL_EQUIP,
+				CATEGORIES: Const.CATEGORIES,
+				GROUPS: Const.GROUPS,
+				MODE: Const.GAME_TYPE,
+				RULE: Const.RULE,
+				OPTIONS: Const.OPTIONS,
+				KO_INJEONG: Const.KO_INJEONG,
+				EN_INJEONG: Const.EN_INJEONG,
+				KO_THEME: Const.KO_THEME,
+				EN_THEME: Const.EN_THEME,
+				IJP_EXCEPT: Const.IJP_EXCEPT,
+				ogImage: "http://kkutu.kr/img/kkutu/logo.png",
+				ogURL: "https://zep-kkutu.online/",
+				ogTitle: "ZEP 끄투서버",
+				ogDescription: "ZEP에서 끝말잇기 한판?",
+			});
+		}
+	});
 
 	Server.get("/login", (req, res) => {
 		if (global.isPublic) {
