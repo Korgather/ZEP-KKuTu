@@ -76,37 +76,38 @@ Server.use(
 		saveUninitialized: true,
 		cookie: {
 			maxAge: 1000 * 60 * 60 * 24,
-			sameSite: "none",
-			secure: true,
+			// sameSite: "none",
+			// secure: true,
 		},
 	})
 );
 
-Server.use((req, res, next) => {
-	// res.header("Access-Control-Allow-Origin", "*");
-	// res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-	// res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-	res.setHeader("P3P", 'CP="IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT"');
-	// res.setHeader("X-Content-Type-Options", "nosniff");
-	res.setHeader("X-Frame-Options", "ALLOW-FROM https://zep-kkutu.online https://zep.us");
-	res.setHeader("Content-Security-Policy", "frame-ancestors https://zep-kkutu.online https://zep.us");
+// Server.use((req, res, next) => {
+// 	// res.header("Access-Control-Allow-Origin", "*");
+// 	// res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+// 	// res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+// 	// res.setHeader("P3P", 'CP="IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT"');
+// 	// res.setHeader("X-Content-Type-Options", "nosniff");
 
-	// SameSite=None 및 Secure 속성 추가
-	// if (req.secure) {
-	// 	res.header("Set-Cookie", ["SameSite=None", "Secure"]);
-	// }
+// 	// res.setHeader("X-Frame-Options", "ALLOW-FROM https://zep-kkutu.online https://zep.us");
+// 	// res.setHeader("Content-Security-Policy", "frame-ancestors https://zep-kkutu.online https://zep.us");
 
-	next();
-});
+// 	// SameSite=None 및 Secure 속성 추가
+// 	// if (req.secure) {
+// 	// 	res.header("Set-Cookie", ["SameSite=None", "Secure"]);
+// 	// }
+
+// 	next();
+// });
 //볕뉘 수정
 Server.use(passport.initialize());
 Server.use(passport.session());
-Server.use((req, res, next) => {
-	if (req.session.passport) {
-		delete req.session.passport;
-	}
-	next();
-});
+// Server.use((req, res, next) => {
+// 	if (req.session.passport) {
+// 		delete req.session.passport;
+// 	}
+// 	next();
+// });
 Server.use((req, res, next) => {
 	if (Const.IS_SECURED) {
 		// if (req.protocol == "http") {

@@ -91,100 +91,75 @@ exports.run = (Server, page) => {
 		}
 	}
 
-	// // Passport 설정
-	// passport.use(
-	// 	"no-auth",
-	// 	new CustomStrategy((req, done) => {
-	// 		var zepID = req.query.id;
+	// Passport 설정
+	passport.use(
+		"no-auth",
+		new CustomStrategy((req, done) => {
+			var zepID = req.query.id;
 
-	// 		if (zepID) {
-	// 			const $p = {};
-	// 			$p.authType = "zep";
-	// 			$p.id = zepID;
-	// 			$p.name = req.query.name;
-	// 			$p.title = req.query.name;
-	// 			$p.image = req.query.image;
-	// 			$p.sid = req.session.id;
-	// 			let now = Date.now();
-	// 			$p.sid = req.session.id;
+			if (zepID) {
+				const $p = {};
+				$p.authType = "zep";
+				$p.id = zepID;
+				$p.name = req.query.name;
+				$p.title = req.query.name;
+				$p.image = req.query.image;
+				$p.sid = req.session.id;
+				let now = Date.now();
+				$p.sid = req.session.id;
 
-	// 			req.session.profile = $p;
-	// 			MainDB.session
-	// 				.upsert(["_id", req.session.id])
-	// 				.set({
-	// 					profile: $p,
-	// 					createdAt: now,
-	// 				})
-	// 				.on();
-	// 			MainDB.users.findOne(["_id", $p.id]).on(($body) => {
-	// 				req.session.profile = $p;
-	// 				MainDB.users.update(["_id", $p.id]).set(["lastLogin", now]).on();
-	// 			});
-
-	// 			JLog.log(req.session.id);
-
-	// 			// req.session.passport.user = $p;
-	// 			// req.session.save((err) => {});
-	// 			// const user = $p;
-	// 			// 인증 완료 처리
-	// 			done(null, $p);
-	// 		}
-	// 	})
-	// );
-
-	function noAuthMiddleware(req, res, next) {
-		var zepID = req.query.id;
-
-		if (zepID && (!req.session.profile || req.session.profile.id !== zepID)) {
-			const $p = {};
-			$p.authType = "zep";
-			$p.id = zepID;
-			$p.name = req.query.name;
-			$p.title = req.query.name;
-			$p.image = req.query.image;
-			$p.sid = req.session.id;
-			let now = Date.now();
-			$p.sid = req.session.id;
-
-			req.session.profile = $p;
-			MainDB.session
-				.upsert(["_id", req.session.id])
-				.set({
-					profile: $p,
-					createdAt: now,
-				})
-				.on();
-			MainDB.users.findOne(["_id", $p.id]).on(($body) => {
 				req.session.profile = $p;
-				MainDB.users.update(["_id", $p.id]).set(["lastLogin", now]).on();
-			});
-
-			JLog.log(req.session.id);
-
-			// 인증 완료 처리
-			req.login($p, (err) => {
-				if (err) {
-					JLog.log(`login error: ${err}`);
-					return next();
-				}
-				JLog.log(`login success`);
-
-				req.session.save((err) => {
-					if (err) {
-						JLog.log(`session save error: ${err}`);
-						return next();
-					}
-					return next();
+				MainDB.session
+					.upsert(["_id", req.session.id])
+					.set({
+						profile: $p,
+						createdAt: now,
+					})
+					.on();
+				MainDB.users.findOne(["_id", $p.id]).on(($body) => {
+					req.session.profile = $p;
+					MainDB.users.update(["_id", $p.id]).set(["lastLogin", now]).on();
 				});
+
+				JLog.log(`저장된 세션아이디 ${req.session.id}`);
+
+				// req.session.passport.user = $p;
+				// req.session.save((err) => {});
+				// const user = $p;
+				// 인증 완료 처리
+				done(null, $p);
+			}
+		})
+	);
+
+	function onAuthentication(req, res) {
+		req.login(req.user, (err) => {
+			if (err) {
+				JLog.log(`login error: ${err}`);
+				return res.redirect("/");
+			}
+			JLog.log(`login success`);
+
+			req.session.save((err) => {
+				if (err) {
+					JLog.log(`session save error: ${err}`);
+					return res.redirect("/");
+				}
+				res.redirect("/");
 			});
-		} else {
-			next();
-		}
+		});
 	}
 
-	Server.get("/", noAuthMiddleware, function (req, res) {
+	// 인증을 처리하는 라우터
+	Server.get("/login/zep", passport.authenticate("no-auth", { session: true, failWithError: true }), onAuthentication, (err, req, res, next) => {
+		// 인증에 실패했을 경우의 처리
+		JLog.log(`Authentication error: ${err}`);
+		res.redirect("/");
+	});
+
+	Server.get("/", function (req, res) {
 		var server = req.query.server;
-		JLog.log(req.session.id);
+		JLog.log(`리다이렉트 후 세션 아이디 ${req.session.id}`);
 		MainDB.session.findOne(["_id", req.session.id]).on(function ($ses) {
 			if (global.isPublic) {
 				onFinish($ses);
