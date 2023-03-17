@@ -13,21 +13,12 @@ const LICENSE = [
 	"GNU General Public License for more details.",
 	"",
 	"You should have received a copy of the GNU General Public License",
-	"along with this program. If not, see <http://www.gnu.org/licenses/>."
-].join('\n');
+	"along with this program. If not, see <http://www.gnu.org/licenses/>.",
+].join("\n");
 
-var File = require('fs');
+var File = require("fs");
 
-const LIST = [
-	"global",
-	
-	"in_login",
-	"in_game_kkutu",
-	"in_game_kkutu_help",
-	"in_admin",
-	"in_portal",
-	"in_loginfail"
-];
+const LIST = ["global", "in_login", "in_game_kkutu", "in_game_kkutu_help", "in_admin", "in_portal", "in_loginfail"];
 const KKUTU_LIST = [
 	"Web/lib/kkutu/head.js",
 	"Web/lib/kkutu/ready.js",
@@ -37,48 +28,51 @@ const KKUTU_LIST = [
 	"Web/lib/kkutu/rule_typing.js",
 	"Web/lib/kkutu/rule_hunmin.js",
 	"Web/lib/kkutu/rule_daneo.js",
+	"Web/lib/kkutu/rule_drawing.js",
 	"Web/lib/kkutu/rule_sock.js",
 	"Web/lib/kkutu/body.js",
-	"Web/lib/kkutu/tail.js"
+	"Web/lib/kkutu/tail.js",
 ];
 
-module.exports = function(grunt){
-	var i, files = {}, cons = {};
+module.exports = function (grunt) {
+	var i,
+		files = {},
+		cons = {};
 	var KKUTU = "Web/public/js/in_game_kkutu.min.js";
-	
-	for(i in LIST){
-		files["Web/public/js/"+LIST[i]+".min.js"] = "Web/lib/"+LIST[i]+".js";
+
+	for (i in LIST) {
+		files["Web/public/js/" + LIST[i] + ".min.js"] = "Web/lib/" + LIST[i] + ".js";
 	}
 	files[KKUTU] = KKUTU_LIST;
-	
+
 	grunt.initConfig({
 		uglify: {
 			options: {
-				banner: "/**\n" + LICENSE + "\n*/\n\n"
+				banner: "/**\n" + LICENSE + "\n*/\n\n",
 			},
 			build: {
-				files: files
-			}
+				files: files,
+			},
 		},
 		concat: {
 			basic: {
 				src: KKUTU_LIST,
-				dest: "Web/lib/in_game_kkutu.js"
-			}
-		}
+				dest: "Web/lib/in_game_kkutu.js",
+			},
+		},
 	});
-	grunt.loadNpmTasks('grunt-contrib-uglify');
-	grunt.loadNpmTasks('grunt-contrib-concat');
-	
-	grunt.registerTask('default', ['concat', 'uglify']);
-	grunt.registerTask('pack', 'Log', function(){
+	grunt.loadNpmTasks("grunt-contrib-uglify");
+	grunt.loadNpmTasks("grunt-contrib-concat");
+
+	grunt.registerTask("default", ["concat", "uglify"]);
+	grunt.registerTask("pack", "Log", function () {
 		var done = this.async();
 		var url = __dirname + "/" + KKUTU;
-		
-		File.readFile(url, function(err, res){
-			File.writeFile(url, "(function(){" + res.toString() + "})();", function(err, res){
+
+		File.readFile(url, function (err, res) {
+			File.writeFile(url, "(function(){" + res.toString() + "})();", function (err, res) {
 				done();
 			});
-		})
+		});
 	});
 };
