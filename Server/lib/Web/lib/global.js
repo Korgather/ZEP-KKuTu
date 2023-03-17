@@ -141,7 +141,7 @@ var L;
 		// 계정
 		if ($.cookie("lc") == "") $.cookie("lc", "ko_KR");
 
-		if (global.profile.token) {
+		if (global.profile.title) {
 			$("#account-info")
 				.html(global.profile.title || global.profile.name)
 				.on("click", function (e) {

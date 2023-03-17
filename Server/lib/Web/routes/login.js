@@ -120,9 +120,6 @@ exports.run = (Server, page) => {
 					req.session.profile = $p;
 					MainDB.users.update(["_id", $p.id]).set(["lastLogin", now]).on();
 				});
-
-				JLog.log(`저장된 세션아이디 ${req.session.id}`);
-
 				// req.session.passport.user = $p;
 				// req.session.save((err) => {});
 				// const user = $p;
@@ -138,7 +135,7 @@ exports.run = (Server, page) => {
 				JLog.log(`login error: ${err}`);
 				return res.redirect("/");
 			}
-			JLog.log(`login success`);
+			// JLog.log(`login success`);
 
 			req.session.save((err) => {
 				if (err) {
@@ -159,12 +156,6 @@ exports.run = (Server, page) => {
 
 	Server.get("/", function (req, res) {
 		var server = req.query.server;
-		JLog.log(`리다이렉트 후 세션 아이디 ${req.session.id}`);
-		if (req.cookies && req.cookies["connect.sid"]) {
-			JLog.log(req.cookies["connect.sid"]);
-		} else {
-			JLog.log("connect.sid 읽을 수 없음");
-		}
 
 		MainDB.session.findOne(["_id", req.session.id]).on(function ($ses) {
 			if (global.isPublic) {
