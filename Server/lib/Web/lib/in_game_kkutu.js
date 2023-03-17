@@ -2000,6 +2000,7 @@ $lib.Drawing.drawDisplay = function () {
 	canvas.setHeight(300);
 	canvas.setWidth(300);
 	canvas.selection = false;
+	canvas.freeDrawingBrush.width = 5;
 
 	$("#drawing-line-width").val(20);
 	$("#drawing-color").val("#000000");
