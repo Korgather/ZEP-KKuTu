@@ -59,6 +59,7 @@ WebInit.MOBILE_AVAILABLE = ["portal", "main", "kkutu"];
 require("../sub/checkpub");
 
 JLog.info("<< KKuTu Web >>");
+Server.set("trust proxy", 1);
 Server.set("views", __dirname + "/views");
 Server.set("view engine", "pug");
 Server.use(Express.static(__dirname + "/public"));
@@ -76,8 +77,8 @@ Server.use(
 		saveUninitialized: true,
 		cookie: {
 			maxAge: 1000 * 60 * 60 * 24,
-			// sameSite: "none",
-			// secure: true,
+			sameSite: "none",
+			secure: true,
 		},
 	})
 );
