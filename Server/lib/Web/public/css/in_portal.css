@@ -16,21 +16,21 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#holder{
+#holder {
 	width: 200px;
 	text-align: center;
 	text-shadow: 0px 0px 4px #333;
 	font-weight: bold;
 }
-#logo{
+#logo {
 	margin-top: -20px;
 }
-#kkutu-bulletin{
+#kkutu-bulletin {
 	border: 0px;
 	margin-bottom: 5px;
 }
 
-#menu-bar a{
+#menu-bar a {
 	display: block;
 	float: left;
 	padding: 10px 5px;
@@ -42,7 +42,7 @@
 	box-shadow: 0px 1px 1px #333;
 }
 
-#game-start{
+#game-start {
 	float: left;
 	width: 315px;
 	height: 70px;
@@ -52,22 +52,26 @@
 	border-bottom-left-radius: inherit;
 	border-bottom-right-radius: inherit;
 }
-	#game-start:hover{ font-size: 24px; background-color: rgba(0, 0, 0, 0.5); }
-.server-list-box{
+#game-start:hover {
+	font-size: 24px;
+	background-color: rgba(0, 0, 0, 0.5);
+}
+.server-list-box {
 	float: right;
 	width: 320px;
 	background-color: rgba(0, 0, 0, 0.4);
 }
-.server-list-title{
+.server-list-title {
 	padding: 2px 0px;
 	width: 100%;
 	background-color: rgba(0, 0, 0, 0.4);
 }
-#server-refresh{
+#server-refresh {
 	margin: 0px 5px;
 	cursor: pointer;
 }
-.server{
+
+.server {
 	float: left;
 	margin: 2px 0px;
 	width: 320px;
@@ -75,23 +79,94 @@
 	font-size: 13px;
 	cursor: pointer;
 }
-	.server>div{ float: left; }
-	.server-status{ border-radius: 6px; margin: 2px; width: 12px; height: 12px; }
-		.ss-o{ background-color: #3E3; }
-		.ss-p{ background-color: #EE3; }
-		.ss-q{ background-color: #F55; }
-		.ss-x{ background-color: #777; }
-	.server-name{ width: 60px; }
-	.server-people{ width: 190px; height: 100%; }
-		.server-people>.graph-bar{ background-image: url(/img/blue_gauge.png); }
-		.server-people>label{ position: relative; display: block; top: -14px; width: 100%; text-align: center; font-size: 11px; }
-	.server-enter{ width: 50px; text-align: center; }
-	.server:hover{ background-color: rgba(255, 255, 255, 0.1); }
+.server > div {
+	float: left;
+}
+.server-status {
+	border-radius: 6px;
+	margin: 2px;
+	width: 12px;
+	height: 12px;
+}
+.ss-o {
+	background-color: #3e3;
+}
+.ss-p {
+	background-color: #ee3;
+}
+.ss-q {
+	background-color: #f55;
+}
+.ss-x {
+	background-color: #777;
+}
+.server-name {
+	width: 60px;
+}
+.server-people {
+	width: 190px;
+	height: 100%;
+}
+.server-people > .graph-bar {
+	background-image: url(/img/blue_gauge.png);
+}
+.server-people > label {
+	position: relative;
+	display: block;
+	top: -14px;
+	width: 100%;
+	text-align: center;
+	font-size: 11px;
+}
+.server-enter {
+	width: 50px;
+	text-align: center;
+}
+.server:hover {
+	background-color: rgba(255, 255, 255, 0.1);
+}
 
-#Background{
+#Background {
 	animation: BGScroll 4s linear infinite;
 }
-@keyframes BGScroll{
-	from{ background-position: 0px 0px; }
-	to{ background-position: -200px -200px; }
+
+.server-info {
+	float: right;
+	margin-top: -120px;
+	width: 50%;
+	position: relative;
+}
+
+.icon-wrapper {
+	display: flex;
+	justify-content: start;
+	gap: 16px;
+	position: absolute;
+	float: right;
+	bottom: -50px;
+	right: 0px;
+	width: 320px;
+	color: black;
+}
+
+.kakaotalk,
+.discord {
+	width: 36px;
+	float: right;
+	margin-top: -10px;
+}
+
+.discord > img,
+.kakaotalk > img {
+	width: 100%;
+	cursor: pointer;
+}
+
+@keyframes BGScroll {
+	from {
+		background-position: 0px 0px;
+	}
+	to {
+		background-position: -200px -200px;
+	}
 }
