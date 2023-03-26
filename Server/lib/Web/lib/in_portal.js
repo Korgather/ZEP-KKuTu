@@ -30,14 +30,6 @@
 			refi: $("#server-refresh>i"),
 		};
 
-		$(".kakaotalk").on("click", function (e) {
-			window.open("https://open.kakao.com/o/gyHK4hYe", "_blank");
-		});
-
-		$(".discord").on("click", function (e) {
-			window.open("https://discord.gg/vZ4KMJEy4t", "_blank");
-		});
-
 		$("#Background").attr("src", "").addClass("jt-image").css({
 			"background-image": "url(/img/kkutu/gamebg.png)",
 			"background-size": "200px 200px",
