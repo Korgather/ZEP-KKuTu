@@ -3284,3 +3284,22 @@ function yell(msg) {
 		}, 3000);
 	}, 1000);
 }
+
+function checkNotice() {
+	var currentTime = new Date().getTime();
+	var noticeTime = $.cookie("notice");
+
+	if (noticeTime) {
+		noticeTime = parseInt(noticeTime, 10);
+
+		var timeDifference = currentTime - noticeTime;
+
+		if (timeDifference >= 24 * 60 * 60 * 1000) {
+			$.cookie("notice", currentTime);
+			showDialog($stage.dialog.policy);
+		}
+	} else {
+		$.cookie("notice", currentTime);
+		showDialog($stage.dialog.policy);
+	}
+}

@@ -393,6 +393,10 @@ block Middle
 		div.dialog-bar#obtain-name(style='text-align: center;')
 		div.dialog-bar.tail-button
 			button#obtain-ok= L('OK')
+	+Dialog('PolicyDiag', 500, 575, L('notice'))
+		iframe#zep-kkutu-policy(width='100%', height='500px', src='/policy.html')
+		div.dialog-bar.tail-button
+			button#policy-ok= L('OK')
 	+Dialog('HelpDiag', 550, 400, L('helpText'))
 		iframe#help-board(width=550, height=375)
 	+Product('UserList')

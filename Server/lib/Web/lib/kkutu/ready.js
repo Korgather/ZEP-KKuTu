@@ -131,6 +131,8 @@ $(document).ready(function () {
 			obtain: $("#ObtainDiag"),
 			obtainOK: $("#obtain-ok"),
 			help: $("#HelpDiag"),
+			policy: $("#PolicyDiag"),
+			policyOK: $("#policy-ok"),
 		},
 		box: {
 			chat: $(".ChatBox"),
@@ -972,6 +974,10 @@ $(document).ready(function () {
 		replayReady();
 	});
 
+	$stage.dialog.policyOK.on("click", function (e) {
+		$stage.dialog.policy.hide();
+	});
+
 	// 스팸
 	addInterval(function () {
 		if (spamCount > 0) spamCount = 0;
@@ -983,6 +989,7 @@ $(document).ready(function () {
 		ws = new _WebSocket($data.URL);
 		ws.onopen = function (e) {
 			loading();
+			checkNotice();
 			/*if($data.PUBLIC && mobile) $("#ad").append($("<ins>").addClass("daum_ddn_area")
 				.css({ 'display': "none", 'margin-top': "10px", 'width': "100%" })
 				.attr({
