@@ -94,7 +94,8 @@
 		"GROUP_Mclothes": "모레미 옷",
 		"GROUP_Mshoes": "모레미 발",
 		"GROUP_Mback": "모레미 배경",
-		"GROUP_Mfront": "모레미 전경"
+		"GROUP_Mfront": "모레미 전경",
+		"GROUP_MBody": "모레미 몸통"
 	},
 	"error": {
 		"title": "오류!",
@@ -561,8 +562,9 @@
 		"myExordialX": "100글자 이내",
 		"myMoremi": "내 모레미",
 		"category_all": "전체",
+		"category_body": "몸통",
 		"category_spec": "특수",
-		"category_skin": "스킨",
+		"category_skin": "네임컬러",
 		"category_badge": "휘장",
 		"category_head": "머리",
 		"category_eye": "눈",

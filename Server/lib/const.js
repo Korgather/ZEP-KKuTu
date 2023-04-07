@@ -43,10 +43,11 @@ exports.OPTIONS = {
 	sht: { name: "Short" },
 };
 exports.MOREMI_PART = ["back", "eye", "mouth", "shoes", "clothes", "head", "lhand", "rhand", "front"];
-exports.CATEGORIES = ["all", "spec", "skin", "badge", "head", "eye", "mouth", "clothes", "hs", "back"];
-exports.AVAIL_EQUIP = ["NIK", "BDG1", "BDG2", "BDG3", "BDG4", "Mhead", "Meye", "Mmouth", "Mhand", "Mclothes", "Mshoes", "Mback"];
+exports.CATEGORIES = ["all", "body", "skin", "badge", "head", "eye", "mouth", "clothes", "hs", "back"];
+exports.AVAIL_EQUIP = ["NIK", "BDG1", "BDG2", "BDG3", "BDG4", "Mhead", "Meye", "Mmouth", "Mhand", "Mclothes", "Mshoes", "Mback", "Mbody"];
 exports.GROUPS = {
 	spec: ["PIX", "PIY", "PIZ", "CNS"],
+	body: ["Mbody"],
 	skin: ["NIK"],
 	badge: ["BDG1", "BDG2", "BDG3", "BDG4"],
 	head: ["Mhead"],

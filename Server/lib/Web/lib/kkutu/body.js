@@ -3253,7 +3253,8 @@ function renderMoremi(target, equip) {
 	$obj.children(".moremi-back").after(
 		$("<img>")
 			.addClass("moremies moremi-body")
-			.attr("src", equip.robot ? "/img/kkutu/moremi/robot.png" : "/img/kkutu/moremi/body.png")
+			.attr("src", equip.robot ? "/img/kkutu/moremi/robot.png" 
+				: equip.Mbody ? iImage(equip["Mbody"]) : "/img/kkutu/moremi/body.png")
 			.css({ width: "100%", height: "100%" })
 	);
 	$obj.children(".moremi-rhand").css("transform", "scaleX(-1)");
