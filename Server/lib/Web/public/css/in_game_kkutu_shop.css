@@ -44,9 +44,26 @@
 	}
 
 /* NIK */
-.x-gm .users-name::before{ content: "[GM]"; color: #2F77D9; text-shadow: 0px 0px 2px #2AF; }
-.chat-item>.x-gm::before{ content: "[GM]"; color: #2F77D9; text-shadow: 0px 0px 2px #2AF; }
-.room-user-title>.x-gm::before{ content: "[GM]"; color: #2F77D9; text-shadow: 0px 0px 2px #2AF; }
+.x-gm .users-name::before{ content: "[총괄]"; color: #ff2d2d; text-shadow: 0px 0px 2px #ff7171; }
+.chat-item>.x-gm::before{ content: "[총괄]"; color: #ff2d2d; text-shadow: 0px 0px 2px #ff7171; }
+.room-user-title>.x-gm::before{ content: "[총괄]"; color: #ff2d2d; text-shadow: 0px 0px 2px #ff7171; }
+
+.x-gm-sec .users-name::before{ content: "[부총괄]"; color: #ff982d; text-shadow: 0px 0px 2px #ffcd71; }
+.chat-item>.x-gm-sec::before{ content: "[부총괄]"; color: #ff982d; text-shadow: 0px 0px 2px #ffcd71; }
+.room-user-title>.x-gm-sec::before{ content: "[부총괄]"; color: #ff982d; text-shadow: 0px 0px 2px #ffcd71; }
+
+.x-gm-word .users-name::before{ content: "[단어팀]"; color: #2fd9c1; text-shadow: 0px 0px 2px #22ffc2; }
+.chat-item>.x-gm-word::before{ content: "[단어팀]"; color: #2fd9c1; text-shadow: 0px 0px 2px #22ffc2; }
+.room-user-title>.x-gm-word::before{ content: "[단어팀]"; color: #2fd9c1; text-shadow: 0px 0px 2px #22ffc2; }
+
+.x-gm-design .users-name::before{ content: "[디자인팀]"; color: #fa8ee5; text-shadow: 0px 0px 2px #ff71ee; }
+.chat-item>.x-gm-design::before{ content: "[디자인팀]"; color: #fa8ee5; text-shadow: 0px 0px 2px #ff71ee; }
+.room-user-title>.x-gm-design::before{ content: "[디자인팀]"; color: #fa8ee5; text-shadow: 0px 0px 2px #ff71ee; }
+
+.x-gm-manage .users-name::before{ content: "[운영팀]"; color: #c086ff; text-shadow: 0px 0px 2px #d9a6ff; }
+.chat-item>.x-gm-manage::before{ content: "[운영팀]"; color: #c086ff; text-shadow: 0px 0px 2px #d9a6ff; }
+.room-user-title>.x-gm-manage::before{ content: "[운영팀]"; color: #c086ff; text-shadow: 0px 0px 2px #d9a6ff; }
+
 
 .x-red_name{ color: #FF3333; }
 .x-orange_name{ color: #FFA533; }
