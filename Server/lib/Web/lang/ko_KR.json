@@ -572,6 +572,7 @@
 		"category_clothes": "옷",
 		"category_hs": "손발",
 		"category_back": "배경",
+		"category_front": "전경",
 		"equipped": "<font style='color: #FFB861;'> (착용 중)</font>",
 		"sureEquip": "다음 항목을 착용합니다",
 		"sureUnequip": "다음 항목을 착용 해제합니다",
