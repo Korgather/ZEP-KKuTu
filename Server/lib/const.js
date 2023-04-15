@@ -55,7 +55,8 @@ exports.GROUPS = {
 	mouth: ["Mmouth"],
 	clothes: ["Mclothes"],
 	hs: ["Mhand", "Mshoes"],
-	back: ["Mback", "Mfront"],
+	back: ["Mback"],
+	front: ["Mfront"],
 };
 exports.RULE = {
 	/*
