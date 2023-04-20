@@ -203,6 +203,8 @@ $(document).ready(function () {
 			help: $("#HelpDiag"),
 			policy: $("#PolicyDiag"),
 			policyOK: $("#policy-ok"),
+			event: $("#EventDiag"),
+			eventOK: $("#event-ok"),
 		},
 		box: {
 			chat: $(".ChatBox"),
@@ -1046,6 +1048,10 @@ $(document).ready(function () {
 
 	$stage.dialog.policyOK.on("click", function (e) {
 		$stage.dialog.policy.hide();
+	});
+
+	$stage.dialog.eventOK.on("click", function (e) {
+		$stage.dialog.event.hide();
 	});
 
 	// 스팸
