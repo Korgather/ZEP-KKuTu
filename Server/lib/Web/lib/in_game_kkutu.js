@@ -1066,6 +1066,7 @@ $(document).ready(function () {
 		ws.onopen = function (e) {
 			loading();
 			checkNotice();
+			showDialog($stage.dialog.event);
 			/*if($data.PUBLIC && mobile) $("#ad").append($("<ins>").addClass("daum_ddn_area")
 				.css({ 'display': "none", 'margin-top': "10px", 'width': "100%" })
 				.attr({

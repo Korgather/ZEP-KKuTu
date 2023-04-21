@@ -626,6 +626,7 @@
 		"myRank": "내 순위",
 		"nextPage": "다음",
 		"page": "페이지",
+		"event": "이벤트",
 
 		"attemptFriendAdd": "님의 친구 추가 요청을 받았습니다. 수락합니까?",
 		"friendEditMemo": "이 친구에 대한 메모를 설정합니다. (최고 50자)",
