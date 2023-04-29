@@ -63,7 +63,7 @@ function showDialog($d, noToggle) {
 			.addClass("dialog-front")
 			.css({
 				left: (size[0] - $d.width()) * 0.5,
-				top: (size[1] - $d.height()) * 0.5,
+				top: (size[1] - $d.height()) * 0.2,
 			});
 		return true;
 	}
