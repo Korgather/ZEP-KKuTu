@@ -41,6 +41,7 @@ exports.OPTIONS = {
 	no2: { name: "No2" },
 	ulm: { name: "Unlimited" },
 	sht: { name: "Short" },
+	gtl: { name: "Gentle" }
 };
 exports.MOREMI_PART = ["back", "eye", "mouth", "shoes", "clothes", "head", "lhand", "rhand", "front"];
 exports.CATEGORIES = ["all", "body", "skin", "badge", "head", "eye", "mouth", "clothes", "hs", "back", "front"];
@@ -72,7 +73,7 @@ exports.RULE = {
 	EKT: { lang: "en", rule: "Classic", opts: ["man", "ext", "mis"], time: 1, ai: true, big: false, ewq: true },
 	ESH: { lang: "en", rule: "Classic", opts: ["ext", "mis"], time: 1, ai: true, big: false, ewq: true },
 	KKT: { lang: "ko", rule: "Classic", opts: ["man", "ext", "mis", "loa", "str", "k32"], time: 1, ai: true, big: false, ewq: true },
-	KSH: { lang: "ko", rule: "Classic", opts: ["man", "ext", "mis", "loa", "str"], time: 1, ai: true, big: false, ewq: true },
+	KSH: { lang: "ko", rule: "Classic", opts: ["man", "ext", "mis", "gtl", "loa", "str"], time: 1, ai: true, big: false, ewq: true },
 	CSQ: { lang: "ko", rule: "Jaqwi", opts: ["ijp"], time: 1, ai: true, big: false, ewq: false },
 	KCW: { lang: "ko", rule: "Crossword", opts: [], time: 2, ai: false, big: true, ewq: false },
 	KTY: { lang: "ko", rule: "Typing", opts: ["prv"], time: 1, ai: false, big: false, ewq: false },

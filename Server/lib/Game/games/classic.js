@@ -264,17 +264,44 @@ exports.submit = function(client, text){
 					DB.kkutu[l].update([ '_id', text ]).set([ 'hit', $doc.hit + 1 ]).on();
 				}
 			}
-			if(firstMove || my.opts.manner) getAuto.call(my, preChar, preSubChar, 1).then(function(w){
-				if(w) approved();
-				else{
-					my.game.loading = false;
-					client.publish('turnError', { code: firstMove ? 402 : 403, value: text }, true);
-					if(client.robot){
-						my.readyRobot(client);
+
+
+			if(my.opts.gentle) {
+				getAuto.call(my, preChar, preSubChar, 2).then(function(list){
+					if(Array.isArray(list) && list.length > 5) {
+						if(firstMove || my.opts.manner) getAuto.call(my, preChar, preSubChar, 1).then(function(w){
+							if(w) approved();
+							else{
+								my.game.loading = false;
+								client.publish('turnError', { code: firstMove ? 402 : 403, value: text }, true);
+								if(client.robot){
+									my.readyRobot(client);
+								}
+							}
+						});
+						else approved();
+					} else {
+						my.game.loading = false;
+						client.publish('turnError', { code: 410, value: text }, true);
+						if(client.robot){
+							my.readyRobot(client);
+						}
+					} 
+				});
+			} else {
+				if(firstMove || my.opts.manner) getAuto.call(my, preChar, preSubChar, 1).then(function(w){
+					if(w) approved();
+					else{
+						my.game.loading = false;
+						client.publish('turnError', { code: firstMove ? 402 : 403, value: text }, true);
+						if(client.robot){
+							my.readyRobot(client);
+						}
 					}
-				}
-			});
-			else approved();
+				});
+			}
+			
+			
 		}
 		function denied(code){
 			my.game.loading = false;
