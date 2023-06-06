@@ -125,7 +125,7 @@ function processAdmin(id, value) {
 				} else if (args.length == 3) {
 					MainDB.users
 						.update(["_id", args[0].trim()])
-						.set(["black", args[1].trim()], ["blockedUntil", addDate(parseInt(args[2].trim()))])
+						.set(["black", args[1].trim()], ["blockeduntil", addDate(parseInt(args[2].trim()))])
 						.on();
 				} else return null;
 
@@ -143,11 +143,11 @@ function processAdmin(id, value) {
 			try {
 				var args = value.split(",");
 				if (args.length == 2) {
-					MainDB.ip_block.update(["_id", args[0].trim()]).set(["reasonBlocked", args[1].trim()]).on();
+					MainDB.ip_block.update(["_id", args[0].trim()]).set(["reasonblocked", args[1].trim()]).on();
 				} else if (args.length == 3) {
 					MainDB.ip_block
 						.update(["_id", args[0].trim()])
-						.set(["reasonBlocked", args[1].trim()], ["ipBlockedUntil", addDate(parseInt(args[2].trim()))])
+						.set(["reasonblocked", args[1].trim()], ["ipblockeduntil", addDate(parseInt(args[2].trim()))])
 						.on();
 				} else return null;
 
@@ -158,7 +158,7 @@ function processAdmin(id, value) {
 			return null;
 		case "unban":
 			try {
-				MainDB.users.update(["_id", value]).set(["black", null], ["blockedUntil", 0]).on();
+				MainDB.users.update(["_id", value]).set(["black", null], ["blockeduntil", 0]).on();
 				JLog.info(`[Block] 사용자 #${value}(이)가 이용제한 해제 처리되었습니다.`);
 			} catch (e) {
 				processAdminErrorCallback(e, id);
@@ -166,7 +166,7 @@ function processAdmin(id, value) {
 			return null;
 		case "ipunban":
 			try {
-				MainDB.ip_block.update(["_id", value]).set(["reasonBlocked", null], ["ipBlockedUntil", 0]).on();
+				MainDB.ip_block.update(["_id", value]).set(["reasonblocked", null], ["ipblockeduntil", 0]).on();
 				JLog.info(`[Block] IP 주소 ${value}(이)가 이용제한 해제 처리되었습니다.`);
 			} catch (e) {
 				processAdminErrorCallback(e, id);
@@ -419,7 +419,7 @@ exports.init = function (_SID, CHAN) {
 						MainDB.ip_block.findOne(["_id", $c.remoteAddress]).on(function ($body) {
 							if ($body && $body.reasonBlocked) {
 								if ($body.ipBlockedUntil < Date.now()) {
-									MainDB.ip_block.update(["_id", $c.remoteAddress]).set(["ipBlockedUntil", 0], ["reasonBlocked", null]).on();
+									MainDB.ip_block.update(["_id", $c.remoteAddress]).set(["ipblockeduntil", 0], ["reasonblocked", null]).on();
 									JLog.info(`IP 주소 ${$c.remoteAddress}의 이용제한이 해제되었습니다.`);
 								} else {
 									$c.socket.send(
@@ -448,7 +448,7 @@ exports.init = function (_SID, CHAN) {
 
 						if (ref.blockedUntil < Date.now()) {
 							DIC[$c.id] = $c;
-							MainDB.users.update(["_id", $c.id]).set(["blockedUntil", 0], ["black", null]).on();
+							MainDB.users.update(["_id", $c.id]).set(["blockeduntil", 0], ["black", null]).on();
 							JLog.info(`사용자 #${$c.id}의 이용제한이 해제되었습니다.`);
 							isBlockRelease = true;
 						}

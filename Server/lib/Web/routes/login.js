@@ -53,13 +53,10 @@ function process(req, accessToken, MainDB, $p, done) {
 exports.run = (Server, page) => {
 	//passport configure
 	passport.serializeUser((user, done) => {
-		JLog.log("serializeUser");
-		JLog.log(user.id);
 		done(null, user);
 	});
 
 	passport.deserializeUser((obj, done) => {
-		JLog.log("deserializeUser");
 		done(null, obj);
 	});
 
@@ -132,14 +129,14 @@ exports.run = (Server, page) => {
 	function onAuthentication(req, res) {
 		req.login(req.user, (err) => {
 			if (err) {
-				JLog.log(`login error: ${err}`);
+				// JLog.log(`login error: ${err}`);
 				return res.redirect("/");
 			}
 			// JLog.log(`login success`);
 
 			req.session.save((err) => {
 				if (err) {
-					JLog.log(`session save error: ${err}`);
+					// JLog.log(`session save error: ${err}`);
 					return res.redirect("/");
 				}
 				res.redirect("/");
